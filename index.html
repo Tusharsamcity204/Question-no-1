@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+   
+
+
+          <head>
+            <style>
+              table {
+                border-collapse: collapse;
+                width: 100%;
+                border: 2px solid #3498db;
+                margin: 20px 0;
+              }
+          
+              th, td {
+                text-align: left;
+                padding: 12px;
+                border-bottom: 1px solid #3498db;
+              }
+          
+              th {
+                background-color: #3498db;
+                color: white;
+              }
+          
+              tr:nth-child(even) {
+                background-color: #f2f2f2;
+              }
+            </style>
+          
+          
+    </head>
+    <body>
+        <h1>Display of the Data</h1>
+        <table>
+            <tr>
+                <th>Subcategory</th>
+                <th>Title</th>
+                <th>Price</th>
+                <th>Popularity</th>
+            </tr>
+            <tbody id="njane"></tbody>
+        </table>
+       
+
+        <script type="text/javascript">
+        const a_url = "https://s3.amazonaws.com/open-to-cors/assignment.json";
+
+async function fetchData(url) {
+  try {
+    const response = await fetch(url);
+    const products = await response.json();
+    
+    const array = Object.values(products);
+    const prod = Object.values(array[1]);
+    
+    const sortedProd = prod.sort((x, y) => y.popularity - x.popularity);
+
+    sortedProd.forEach(product => console.log(product));
+
+    buildTable(sortedProd);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+fetchData(a_url);
+
+
+      
+
+        function buildTable(data) {
+  const rows = data.map(item => `
+    <tr>
+      <td>${item.subcategory}</td>
+      <td>${item.title}</td>
+      <td>${item.price}</td>
+      <td>${item.popularity}</td>
+    </tr>
+  `);
+
+  document.getElementById("njane").innerHTML = rows.join('');
+}
+
+
+
+
+
+
+
+
+
+
+
+
+        </script>
+
+    </body>
+</html>
